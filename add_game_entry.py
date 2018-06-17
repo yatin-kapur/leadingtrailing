@@ -10,7 +10,7 @@ def create_match_record(match_id):
     soup = bs.BeautifulSoup(response.data, 'lxml')
 
     teams = soup.find_all('span', {'id': 'titequip'})
-    teams = [t.text for t in teams]
+    teams = [t.text.strip() for t in teams]
     home_team = teams[0]
     away_team = teams[1]
 
@@ -19,7 +19,15 @@ def create_match_record(match_id):
     score = soup.find_all('td', {'width': '25', 'align': 'middle'})
     score = [s.text for s in score]
 
+    # check for 0-0
+    final = soup.find_all('font', {'size': '+2'})
+    home_final = int(final[2].text.strip())
+    away_final = int(final[4].text.strip())
+
     goals = [[goal_times[i], int(score[i][0]), int(score[i][-1])] for i in range(0, len(score)) if score[i] != ' ' and score[i] != '\xa0\xa0\xa0']
+    if home_final == 0 and away_final == 0:
+        goals = [[0, 0, 0], [90, 0, 0]]
+
     if goals == []:
         raise ValueError("This match has not completed yet")
 

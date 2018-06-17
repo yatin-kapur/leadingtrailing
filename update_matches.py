@@ -7,10 +7,9 @@ import insert
 
 db = MySQLdb.connect(host="localhost",
 					 user="root",
-					 passwd="mysqlpass",
+					 passwd="harpic",
 					 db="leading_trailing")
 cursor = db.cursor()
-
 
 def update_games(tourn):
 	url = 'http://www.football-lineups.com/tourn/%s' % tourn
@@ -44,4 +43,10 @@ def update_games(tourn):
 
 	db.commit()
 
-update_games('World_Cup_Russia_2018')
+
+cursor.execute("select * from Competitions;")
+competitions = cursor.fetchall()
+competitions = [c[0] for c in competitions]
+
+for c in competitions:
+    update_games(c)
