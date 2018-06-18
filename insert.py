@@ -1,11 +1,5 @@
-import MySQLdb
-db = MySQLdb.connect(host="localhost",
-                     user="root",
-                     passwd="harpic",
-                     db="leading_trailing")
-cursor = db.cursor()
-
-def insert(table_name, **kwargs):
+def insert(cursor, db, table_name, **kwargs):
+    cursor = db.cursor()
     template = "replace into %s (%s) values (%s);"
     column_names = []
     values = []
@@ -20,7 +14,7 @@ def insert(table_name, **kwargs):
 
     value_string = ""
     for v in values:
-        if(v == None):
+        if(v is None):
             value = "NULL"
         elif type(v) is int:
             value = str(v)
@@ -34,8 +28,6 @@ def insert(table_name, **kwargs):
         value_string += value + ","
     value_string = value_string[:-1]
     sql_insert = template % (table_name, column_string, value_string)
-    try:
-        cursor.execute(sql_insert)
-        db.commit()
-    except:
-        print("ERROR", sql_insert)
+
+    cursor.execute(sql_insert)
+    db.commit()
