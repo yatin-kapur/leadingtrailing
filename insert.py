@@ -21,10 +21,7 @@ def insert(cursor, db, table_name, **kwargs):
         elif type(v) is float:
             value = str(v)
         else:
-            try:
-                value = "'" + str(v) + "'"
-            except:
-                value = "'" + str(v.encode('utf-8')) + "'"
+            value = "'" + str(v) + "'"
         value_string += value + ","
     value_string = value_string[:-1]
     sql_insert = template % (table_name, column_string, value_string)

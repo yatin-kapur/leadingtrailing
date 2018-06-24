@@ -38,7 +38,7 @@ def create_match_record(match_id, tourn, db, cursor):
         goals = [[0, 0, 0], [90, 0, 0]]
 
     if goals == []:
-        raise ValueError("This match has not completed yet")
+        raise ValueError("MATCHERROR: This match has not completed yet")
 
     # insert into the match the data of this match
     match_dict = {'match_id': match_id, 'home_team': home_team,

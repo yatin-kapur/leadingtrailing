@@ -35,7 +35,10 @@ def update_games(tourn):
             except Exception as e:
                 print(match)
                 print('ERROR: '+ str(e))
-                break
+                if 'MATCHERROR' in str(e):
+                    continue
+                else:
+                    break
 
 
 cursor.execute("select * from Competitions;")
