@@ -15,6 +15,13 @@ countries = cursor.fetchall()
 countries = [c[0] for c in countries] + [c[1] for c in countries]
 countries = list(set(countries))
 
+rounds_query = "select team, round_of_16 \
+    from russia_stages;"
+cursor.execute(rounds_query)
+qualified = cursor.fetchall()
+qualified = {q[0]:q[1] for q in qualified}
+print(qualified)
+
 points = []
 leading_time = []
 
@@ -49,7 +56,5 @@ for country in countries:
     cursor.execute(lead_query)
     lead_time = int(cursor.fetchall()[0][0])
     leading_time.append(lead_time)
-    plt.scatter(lead_time, point, label=country, color='black')
-    plt.text(lead_time + 0.5, point + 0.1, s=country)
 
 plt.show()
