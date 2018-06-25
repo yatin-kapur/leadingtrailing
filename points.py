@@ -72,14 +72,27 @@ df = pd.DataFrame({'country': countries,
 df.sort_values(by=['group', 'round_of_16', 'leading'], ascending=[True, False, True], inplace=True)
 df.reset_index(inplace=True)
 del df['index']
-print(df)
+
+minus = [-x for x in df['trailing']]
+group = 'Z'
+for index, row in df.iterrows():
+    if group != row['group']:
+        plt.plot([index+3.5, index+3.5], [min(minus) + 20, max(df['leading'])], color='black', lw=0.3, alpha=0.8)
+        group = row['group']
+        plt.text(index+1.5, max(df['leading']) + 2, s=group)
+
+    bottom = -row['trailing']
+    alpha = 1 if row['round_of_16'] else 0.5
+    plt.bar(index, row['trailing'], bottom=bottom, color='#ff5050', alpha=alpha)
+    plt.bar(index, row['leading'], color='#29e869', alpha=alpha)
+
 
 #alpha = {1: 1, 0: 0.3}
-#minus = [-x for x in df['trailing']]
 #plt.bar(list(range(0,32)), df['trailing'], bottom=minus, color='#ff5050')
 #plt.bar(list(range(0,32)), df['leading'], color='#66ff66')
-#plt.xticks(list(range(0,32)), df['country'], rotation='vertical')
-#plt.ylabel('Minutes')
-#plt.title('Time Spent Leading & Trailing')
+plt.plot([-0.5, -0.5], [min(minus)+20, max(df['leading'])], color='black', lw=0.3, alpha=0.8)
+plt.xticks(list(range(0,32)), df['country'], rotation='vertical')
+plt.ylabel('Minutes')
+plt.title('Time Spent Leading & Trailing')
 
 plt.show()
