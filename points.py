@@ -1,7 +1,9 @@
 import MySQLdb
 import pandas as pd
 import matplotlib.pyplot as plt
-#import insert
+import matplotlib
+matplotlib.rcParams['font.family'] = 'serif'
+matplotlib.rcParams['font.serif'] = 'Palatino'
 
 db = MySQLdb.connect(host="localhost", user="root", passwd="harpic",
                      db="leading_trailing")
