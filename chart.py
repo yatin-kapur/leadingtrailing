@@ -71,7 +71,7 @@ df = pd.DataFrame({'country': countries,
                    'trailing': trailing_time,
                    'round_of_16': df_qual})
 
-df.sort_values(by=['group', 'round_of_16', 'leading'], ascending=[True, False, True], inplace=True)
+df.sort_values(by=['group', 'round_of_16', 'leading', 'trailing'], ascending=[True, False, False, True], inplace=True)
 df.reset_index(inplace=True)
 del df['index']
 
