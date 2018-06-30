@@ -92,9 +92,15 @@ for index, row in df.iterrows():
 #alpha = {1: 1, 0: 0.3}
 #plt.bar(list(range(0,32)), df['trailing'], bottom=minus, color='#ff5050')
 #plt.bar(list(range(0,32)), df['leading'], color='#66ff66')
+plt.scatter(0,10, color='#29e869', label='Leading')
+plt.scatter(0,10, color='#ff5050', label='Trailing')
 plt.plot([-0.5, -0.5], [min(minus)+20, max(df['leading'])], color='black', lw=0.3, alpha=0.8)
 plt.xticks(list(range(0,32)), df['country'], rotation='vertical')
+plt.yticks([-150, -100, -50, 0, 50, 100, 150], ['150', '100', '50', '0', '50', '100', '150'])
 plt.ylabel('Minutes')
 plt.title('Time Spent Leading & Trailing')
 
-plt.show()
+plt.legend()
+
+plt.tight_layout()
+plt.savefig('r016.png', dpi=600, figsize=(10, 8))
