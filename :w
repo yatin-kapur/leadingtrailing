@@ -1,0 +1,18 @@
+import MySQLdb
+import pandas as pd
+
+db = MySQLdb.connect(host="localhost", user="root", passwd="harpic",
+                     db="leading_trailing")
+cursor = db.cursor()
+
+# query to get matches for a particular team
+# query to fetch final scores for games in particular games
+scores_query = """
+        select k.home_score, k.away_score, o.home_team, o.away_team
+        from (select m.match_id, max(m.minute) as OK from scores m where 1=1 and m.match_id = %s) as t
+        join scores k on k.match_id = t.match_id
+        join matches o on o.match_id = k.match_id
+        where 1=1
+        and t.OK = k.minute;
+        """
+
