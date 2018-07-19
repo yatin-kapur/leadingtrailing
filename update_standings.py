@@ -9,7 +9,7 @@ db = MySQLdb.connect(host=db_dict['host'],
                      passwd=db_dict['password'],
                      db=db_dict['database'])
 
-comp = 'FA_Premier_League_2009-2010'
+comp = 'FA_Premier_League_2008-2009'
 # query to get all teams from a particular competition
 team_query = """
             select distinct(home_team)

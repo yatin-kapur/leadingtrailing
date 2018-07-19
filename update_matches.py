@@ -10,6 +10,7 @@ db = MySQLdb.connect(host=db_dict['host'],
                      passwd=db_dict['password'],
                      db=db_dict['database'])
 
+
 def update_games(tourn):
     cursor = db.cursor()
     url = 'http://www.football-lineups.com/tourn/%s' % tourn
@@ -27,7 +28,7 @@ def update_games(tourn):
         if link['href'][:7] == '/match/':
             match_ids.append(int(link['href'][7:-1]))
 
-    cursor.execute("select * from Matches;")
+    cursor.execute("select * from Matches where competition = '%s';" % tourn)
     current = cursor.fetchall()
     current = [d[0] for d in current]
 
@@ -37,7 +38,7 @@ def update_games(tourn):
                 add_game_entry.create_match_record(match, tourn, db, cursor)
             except Exception as e:
                 print(match)
-                print('ERROR: '+ str(e))
+                print('ERROR: ' + str(e))
                 if 'MATCHERROR' in str(e):
                     continue
                 else:
