@@ -1,3 +1,4 @@
+import dbconfig
 import MySQLdb
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -5,8 +6,12 @@ import matplotlib
 matplotlib.rcParams['font.family'] = 'serif'
 matplotlib.rcParams['font.serif'] = 'Palatino'
 
-db = MySQLdb.connect(host="130.211.158.172", user="root", passwd="init.lambda",
-                     db="leading_trailing")
+db_dict = dbconfig.read_db_config()
+db = MySQLdb.connect(host=db_dict['host'],
+                     user=db_dict['user'],
+                     passwd=db_dict['password'],
+                     db=db_dict['database'])
+
 cursor = db.cursor()
 
 teams_query = "select home_team, away_team \
