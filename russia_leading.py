@@ -5,7 +5,7 @@ import matplotlib
 matplotlib.rcParams['font.family'] = 'serif'
 matplotlib.rcParams['font.serif'] = 'Palatino'
 
-db = MySQLdb.connect(host="localhost", user="root", passwd="harpic",
+db = MySQLdb.connect(host="130.211.158.172", user="root", passwd="init.lambda",
                      db="leading_trailing")
 cursor = db.cursor()
 

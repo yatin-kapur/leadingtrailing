@@ -1,11 +1,15 @@
+import dbconfig
 import MySQLdb
 import insert
 import pandas as pd
 
-db = MySQLdb.connect(host="localhost", user="root", passwd="harpic",
-                     db="leading_trailing")
-cursor = db.cursor()
+db_dict = dbconfig.read_db_config()
+db = MySQLdb.connect(host=db_dict['host'],
+                     user=db_dict['user'],
+                     passwd=db_dict['password'],
+                     db=db_dict['database'])
 
+comp = 'FA_Premier_League_2009-2010'
 # query to get all teams from a particular competition
 team_query = """
             select distinct(home_team)
@@ -55,6 +59,7 @@ trail_query = """
 
 
 def get_season_data(matches):
+    cursor = db.cursor()
     # iterate through matches and collect scores
     for match in matches:
         # get the final score of the game
@@ -97,36 +102,55 @@ def get_season_data(matches):
         standings[home_team]['trail_time'] += home_trail
 
 
-comp = 'FA_Premier_League_2012-2013'
-# get all the teams from this competition
-cursor.execute(team_query % comp)
-teams = cursor.fetchall()
-teams = [t[0] for t in teams]
+def get_teams(comp):
+    cursor = db.cursor()
+    # get all the teams from this competition
+    cursor.execute(team_query % comp)
+    teams = cursor.fetchall()
+    teams = [t[0] for t in teams]
+
+    return teams
+
+
+def get_matches(comp):
+    cursor = db.cursor()
+    # get all matches from this season
+    cursor.execute(match_query % comp)
+    matches = cursor.fetchall()
+    matches = [m[0] for m in matches]
+
+    return matches
+
+
+def fetch_and_update(matches, teams, comp):
+    cursor = db.cursor()
+    # call function to fill in data for matches
+    get_season_data(matches)
+
+    # set up data frame object
+    df = pd.DataFrame(standings)
+    df = df.transpose()
+    df.sort_values(by=['pts', 'gd', 'gs', 'ga'], ascending=[0, 0, 0, 1],
+                inplace=True)
+    df = df[['gp', 'pts', 'gs', 'ga', 'gd', 'lead_time', 'trail_time', 'competition']]
+    df = df.reset_index()
+    df['lead_time_p90'] = df['lead_time'] / df['gp']
+    df['trail_time_p90'] = df['trail_time'] / df['gp']
+    df.columns = ['team', 'gp', 'pts', 'gs', 'ga', 'gd', 'lead_time', 'trail_time',
+                'competition', 'lead_time_p90', 'trail_time_p90']
+
+    # convert df to dictionary and insert them into sql database
+    data_dict = df.to_dict('records')
+    for entry in data_dict:
+        insert.insert(cursor, db, 'Competition_Summary', **entry)
+
+
+teams = get_teams(comp)
 # initialize dictionary for team data
 standings = {t: {'gp': 0, 'pts': 0, 'gs': 0, 'ga': 0, 'gd': 0, 'lead_time': 0,
                  'trail_time': 0, 'competition': comp}
              for t in teams}
-# get all matches from this season
-cursor.execute(match_query % comp)
-matches = cursor.fetchall()
-matches = [m[0] for m in matches]
 
-# call function to fill in data for matches
-get_season_data(matches)
+matches = get_matches(comp)
 
-# set up data frame object
-df = pd.DataFrame(standings)
-df = df.transpose()
-df.sort_values(by=['pts', 'gd', 'gs', 'ga'], ascending=[0, 0, 0, 1],
-               inplace=True)
-df = df[['gp', 'pts', 'gs', 'ga', 'gd', 'lead_time', 'trail_time', 'competition']]
-df = df.reset_index()
-df['lead_time_p90'] = df['lead_time'] / df['gp']
-df['trail_time_p90'] = df['trail_time'] / df['gp']
-df.columns = ['team', 'gp', 'pts', 'gs', 'ga', 'gd', 'lead_time', 'trail_time',
-              'competition', 'lead_time_p90', 'trail_time_p90']
-
-# convert df to dictionary and insert them into sql database
-data_dict = df.to_dict('records')
-for entry in data_dict:
-    insert.insert(cursor, db, 'Competition_Summary', **entry)
+fetch_and_update(matches, teams, comp)

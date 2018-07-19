@@ -21,8 +21,14 @@ def create_match_record(match_id, tourn, db, cursor):
     home_team = teams[0]
     away_team = teams[1]
 
-    goal_times = soup.find_all('td', {'width': '30', 'align': 'middle'})
-    goal_times = [int(gt.text[:-1]) for gt in goal_times]
+    goal_times_html = soup.find_all('td', {'width': '30', 'align': 'middle'})
+    goal_times = []
+    for gt in goal_times_html:
+        try:
+            goal_times.append(int(gt.text[:-1]))
+        except:
+            continue
+
     score = soup.find_all('td', {'width': '25', 'align': 'middle'})
     score = [s.text for s in score]
 
@@ -40,10 +46,6 @@ def create_match_record(match_id, tourn, db, cursor):
     if goals == []:
         raise ValueError("MATCHERROR: This match has not completed yet")
 
-    # insert into the match the data of this match
-    match_dict = {'match_id': match_id, 'home_team': home_team,
-                  'away_team': away_team, 'competition': tourn, 'date': date}
-    insert.insert(cursor, db, 'Matches', **match_dict)
 
     # dictionary to load in scores
     insert_dict = {'match_id': match_id}
@@ -54,3 +56,8 @@ def create_match_record(match_id, tourn, db, cursor):
         # call insert function
         insert.insert(cursor, db, 'Scores', **insert_dict)
         create_leading.create_lead(cursor, db, match_id)
+
+    # insert into the match the data of this match after this is successful
+    match_dict = {'match_id': match_id, 'home_team': home_team,
+                  'away_team': away_team, 'competition': tourn, 'date': date}
+    insert.insert(cursor, db, 'Matches', **match_dict)

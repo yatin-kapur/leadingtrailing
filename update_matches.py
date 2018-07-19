@@ -1,14 +1,17 @@
+import dbconfig
 import MySQLdb
 import bs4 as bs
 import urllib3
 import add_game_entry
 
-db = MySQLdb.connect(host="localhost", user="root", passwd="harpic",
-                     db="leading_trailing")
-cursor = db.cursor()
-
+db_dict = dbconfig.read_db_config()
+db = MySQLdb.connect(host=db_dict['host'],
+                     user=db_dict['user'],
+                     passwd=db_dict['password'],
+                     db=db_dict['database'])
 
 def update_games(tourn):
+    cursor = db.cursor()
     url = 'http://www.football-lineups.com/tourn/%s' % tourn
     user_agent = {'user-agent': 'Mozilla/5.0 (Windows NT 6.3; rv:36.0)\
                   Gecko/20100101 Firefox/36.0'}
@@ -41,9 +44,13 @@ def update_games(tourn):
                     break
 
 
-cursor.execute("select * from Competitions;")
-competitions = cursor.fetchall()
-competitions = [c[0] for c in competitions]
+def all_comps():
+    cursor = db.cursor()
+    cursor.execute("select * from Competitions;")
+    competitions = cursor.fetchall()
+    competitions = [c[0] for c in competitions]
 
-for c in competitions:
-    update_games(c)
+    for c in competitions:
+        update_games(c)
+
+all_comps()

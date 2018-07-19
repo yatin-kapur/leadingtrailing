@@ -2,3 +2,4 @@
 *.pyc
 /.ropeproject/*
 /.ipynb_checkpoints/*
+config.ini
