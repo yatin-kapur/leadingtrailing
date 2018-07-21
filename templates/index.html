@@ -8,49 +8,28 @@
     <title>leading trailing</title>
 </head>
 <body>
-    <div id="seasons">
-        <table>
-            {% for comp in comps %} 
-            <tr>
-                <td class="season" id="{{ comp }}"><a>{{ comp }}</a></td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-    <div class="standings">
-        <table id="pointsTable">
-        </table>
-    </div>
-    <script>
-        // list of competitions
-        var comps = {{ comps|tojson|safe }};
-
-        // function to update standings table
-        function update_standings(comp) {
-            $.ajax({
-                url: "/update_standings",
-                data: {'comp' : comp},
-                dataType: "json",
-                type: 'POST',
-                success: function(data) {
-                    console.log(data);
-                    // do the thing to make the table
-                }
-            });
-        };
+    <table id="holder">
+        <tr>
+            <td>
+                <div id="seasons">
+                    <table>
+                        {% for comp in comps %} 
+                        <tr>
+                            <td class="season" id="{{ comp }}"><a>{{ comp }}</a></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </td>
             
-        // check if table needs to be initialized
-        var points_table = document.getElementById('pointsTable').getElementsByClassName('tr');
-        if (points_table.length == 0) {
-            var latest = comps[0];
-            update_standings(latest);
-        }
-
-        // listen for clicks on seasons
-        $(document).on("click", ".season", function() {
-            var comp = $(this).attr('id');
-            update_standings(comp);
-        });
-    </script>
+            <td>
+                <div class="standings">
+                    <table id="pointsTable">
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </table>
 </body>
+<script src="{{ url_for('static', filename='script.js') }}" type="text/javascript"></script>
 </html>
