@@ -1,6 +1,6 @@
 # leading_trailing
-
-Developing a model to predict where teams finish based on time spent leading vs. trailing.
+* Web app showing time spent leading vs. trailing in different portions of the game (only Premier League)
+* Model to predict points given time spent leading and trailing per 90 
 
 ## TODO
 * Build model for english premier league
@@ -11,3 +11,7 @@ Developing a model to predict where teams finish based on time spent leading vs.
 * Script to parse data from football-lineups.com
 * Cronjob for nightly updates
 * Migrate to google compute engine
+
+### Inspiration From
+* https://twitter.com/Worville/status/971701607980204032
+* http://naveedgol.com/NBARotationChart/
