@@ -30,9 +30,9 @@ def start_app():
 
 @app.route('/update_standings', methods=['POST'])
 def update_standings():
+    # get the competition data for requested season
     if request.method == 'POST':
         competition = 'FA_Premier_League_' + request.form['comp']
-        print(competition)
         query = """
                 select team, pts, gp, gs, ga, gd, lead_time_p90, trail_time_p90
                 from competition_summary
@@ -43,6 +43,15 @@ def update_standings():
         cursor = db.cursor()
         cursor.execute(query)
         standings = cursor.fetchall()
+        # organize standings into dictionaries
+        standings = [{'team': d[0],
+                      'pts': d[1],
+                      'gp': d[2],
+                      'gs': d[3],
+                      'ga': d[4],
+                      'gd': d[5],
+                      'lead_time_p90': d[6],
+                      'trail_time_p90': d[7]} for d in standings]
 
         return json.dumps({'data': standings})
 

@@ -1,6 +1,8 @@
 .seasons {
-    height: 80%;
-    width: 20%;
     overflow-y: scroll;
+}
 
+#holder td {
+    padding: 0;
+    margins: 0;
 }
