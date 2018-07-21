@@ -2,6 +2,10 @@
     overflow-y: scroll;
 }
 
+.season {
+    cursor: pointer;
+}
+
 #holder td {
     padding: 0;
     margins: 0;

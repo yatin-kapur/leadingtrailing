@@ -25,7 +25,7 @@ def start_app():
     comps = cursor.fetchall()
     comps = [c[0].split('_')[-1] for c in comps]
 
-    return render_template('index.html', comps=comps)
+    return render_template('home.html', comps=comps)
 
 
 @app.route('/update_standings', methods=['POST'])
