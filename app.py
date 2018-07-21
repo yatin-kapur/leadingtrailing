@@ -56,10 +56,10 @@ def update_standings():
         return json.dumps({'data': standings})
 
 
-@app.route('/teamprofile', methods=['GET', 'POST'])
-def get_team_profile():
-    if request.method == 'POST':
-        return render_template('team.html')
+@app.route('/teamprofile/<string:team>/<string:comp>')
+def get_team_profile(team, comp):
+    team = ' '.join(team.split('_'))
+    return render_template('team.html', team=team, comp=comp)
 
 
 if __name__ == '__main__':
