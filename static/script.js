@@ -1,3 +1,7 @@
+// function to format table
+function format_standings() {
+}
+
 // function to update standings table
 function update_standings(comp) {
     $.ajax({
@@ -7,6 +11,7 @@ function update_standings(comp) {
         type: 'POST',
         success: function(data) {
             var standings = data['data'];
+            // remove and reset table
             d3.select('#pointsTable').remove();
             // do the thing to make the table
             var columns = ['team', 'pts', 'gp', 'gs', 'ga', 'gd', 'lead_time_p90', 'trail_time_p90'];
@@ -30,6 +35,7 @@ function update_standings(comp) {
                 .append('tr');
 
             // create a cell in each row for each column
+            // except for team names
             var cells = rows.selectAll('td')
                 .data(function (row) {
                     return columns.map(function (column) {
@@ -38,7 +44,15 @@ function update_standings(comp) {
                 })
                 .enter()
                 .append('td')
-                .text(function (d) { return d.value; });
+                .text(function (d) { return d.column == 'team' ? "" : d.value; });
+
+            // add team names and link to these team names
+            cells.filter(function(d, i) { return d.column == 'team' })
+                .append('a')
+                .attr('href', function(d) { return '/teamprofile/' + d.value.split(' ').join('_') + '/' + comp; })
+                .html(function(d) { return d.value });
+
+            format_standings();
         }
     });
 };

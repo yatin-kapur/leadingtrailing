@@ -13,6 +13,11 @@
             <td>
                 <div id="seasons">
                     <table>
+                        <thead>
+                            <tr>
+                                <th>Season</th>
+                            </tr>
+                        </thead>
                         {% for comp in comps %} 
                         <tr>
                             <td class="season" id="{{ comp }}"><a>{{ comp }}</a></td>
@@ -22,7 +27,7 @@
                 </div>
             </td>
             
-            <td>
+            <td id="right">
                 <div class="standings">
                     <table id="pointsTable">
                     </table>

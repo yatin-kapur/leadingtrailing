@@ -56,5 +56,11 @@ def update_standings():
         return json.dumps({'data': standings})
 
 
+@app.route('/teamprofile', methods=['GET', 'POST'])
+def get_team_profile():
+    if request.method == 'POST':
+        return render_template('team.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
