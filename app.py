@@ -38,7 +38,7 @@ def update_standings():
                 from competition_summary
                 where 1=1
                 and competition = '%s'
-                order by pts desc;
+                order by pts desc, gd desc;
                 """ % competition
         cursor = db.cursor()
         cursor.execute(query)
@@ -56,10 +56,65 @@ def update_standings():
         return json.dumps({'data': standings})
 
 
-@app.route('/teamprofile/<string:team>/<string:comp>')
+def return_scores(match_id, cursor):
+    # find the scores for the game
+    scores_query = """
+                    select home_score, away_score
+                    from scores
+                    where 1=1
+                    and match_id = %s
+                    order by minute desc, home_score desc, away_score desc;
+                    """ % match_id
+    cursor.execute(scores_query)
+    score = cursor.fetchall()[0]
+
+    return score
+
+
+def return_extended_scores(team, match_id, cursor):
+    # get all the scores for one game
+    query = """
+            select s.minute,
+            if((s.home_score > s.away_score and m.home_team = '%s') or (s.home_score < s.away_score and m.away_team = '%s'), 1, 0) as 'win',
+            if((s.home_score = s.away_score), 2, 0) as 'draw',
+            if((s.home_score < s.away_score and m.home_team = '%s') or (s.home_score > s.away_score and m.away_team = '%s'), 3, 0) as 'loss'
+            from extended_scores s
+            join matches m on m.match_id = s.match_id
+            where 1=1
+            and m.match_id = %s;
+            """ % (team, team, team, team, match_id)
+    cursor.execute(query)
+    scores = cursor.fetchall()
+    scores = [[d[0], d[1] + d[2] + d[3]] for d in scores]
+
+    return scores
+
+
+@app.route('/<string:team>/<string:comp>')
 def get_team_profile(team, comp):
+    # return team name that is without _s
     team = ' '.join(team.split('_'))
-    return render_template('team.html', team=team, comp=comp)
+    comp = 'FA_Premier_League_' + comp
+    # all matches for this team
+    matches_query = """
+                select match_id
+                from matches
+                where 1=1
+                and competition = '%s'
+                and (home_team = '%s' or away_team = '%s')
+                order by date desc;
+                """ % (comp, team, team)
+    cursor = db.cursor()
+    cursor.execute(matches_query)
+    matches = cursor.fetchall()
+    # reshaping data
+    matches = [m[0] for m in matches]
+    scores = [return_scores(m, cursor) for m in matches]
+    extended_scores = [{m: return_extended_scores(team, m, cursor)}
+                       for m in matches]
+
+    return render_template('team.html', team=team, comp=comp, scores=scores,
+                           extended_scores=extended_scores)
 
 
 if __name__ == '__main__':

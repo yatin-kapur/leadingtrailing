@@ -49,7 +49,7 @@ function update_standings(comp) {
             // add team names and link to these team names
             cells.filter(function(d, i) { return d.column == 'team' })
                 .append('a')
-                .attr('href', function(d) { return '/teamprofile/' + d.value.split(' ').join('_') + '/' + comp; })
+                .attr('href', function(d) { return '/' + d.value.split(' ').join('_') + '/' + comp; })
                 .html(function(d) { return d.value });
 
             format_standings();
