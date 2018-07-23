@@ -15,6 +15,7 @@ function update_standings(comp) {
             d3.select('#pointsTable').remove();
             // do the thing to make the table
             var columns = ['team', 'pts', 'gp', 'gs', 'ga', 'gd', 'lead_time_p90', 'trail_time_p90'];
+			var headings = {'team': 'Team', 'pts': 'Points', 'gp': 'GP', 'gs': 'GS', 'ga': 'GA', 'gd': 'GD', 'lead_time_p90': 'LTp90', 'trail_time_p90': 'TTp90'}
             var table = d3.select('.standings')
                 .append('table')
                 .attr('id', 'pointsTable');
@@ -26,7 +27,7 @@ function update_standings(comp) {
                 .selectAll('th')
                 .data(columns).enter()
                 .append('th')
-                .text(function (column) { return column; });
+                .text(function (column) { return headings[column]; });
 
             // create a row for each object in the data
             var rows = tbody.selectAll('tr')
@@ -51,6 +52,10 @@ function update_standings(comp) {
                 .append('a')
                 .attr('href', function(d) { return '/' + d.value.split(' ').join('_') + '/' + comp; })
                 .html(function(d) { return d.value });
+
+			d3.select("#heading").select("th")
+				.text("English Premier League " + comp)
+				.attr("style", "font-weight: 300; padding-bottom: 3vh;")
 
             format_standings();
         }

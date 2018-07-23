@@ -1,12 +1,88 @@
-.seasons {
-    overflow-y: scroll;
+/* setting body dimensions */
+body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    font-family: 'Hind Siliguri', sans-serif;
+}
+
+/* main table dimensions */
+#holder {
+    height: 100%;
+    width: 87%;
+    margin-left: 7%;
+    margin-right: 6%;
+	margin-top: 2%;
+}
+
+#left {
+    width: 11%;
+}
+
+#right {
+    width: 70%;
+}
+
+#key {
+	width: 19%;
+}
+
+td {
+    vertical-align: top;
+}
+
+/* heading */
+#heading {
+	font-size: 4vh;
+	text-decoration: underline;
+	text-align: left;
+}
+
+/* divs holding table */
+.seasons, .standings {
+    display: flex;
+    justify-content: center;
+    height: 80vh;
+    overflow: scroll;
+}
+
+/* table to hold the seasons list */
+#seasonTable {
+    width: 90%;
 }
 
 .season {
     cursor: pointer;
+    text-align: center;
+    width: 70%;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    vertical-align: top;
 }
 
-#holder td {
-    padding: 0;
-    margins: 0;
+/* table to hold the points table */
+#pointsTable {
+	width: 90%;
 }
+
+#pointsTable td {
+    text-align: center;
+    width: 90%;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    padding-top: 0.5vh;
+    padding-bottom: 0.5vh;
+    vertical-align: middle;
+}
+
+#pointsTable a {
+	font-weight: 400;
+	text-decoration: none;
+	color: black;
+}
+
+
+
+

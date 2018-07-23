@@ -97,7 +97,7 @@ def get_team_profile(team, comp):
     comp = 'FA_Premier_League_' + comp
     # all matches for this team
     matches_query = """
-                select match_id
+                select match_id, home_team, away_team
                 from matches
                 where 1=1
                 and competition = '%s'
@@ -108,13 +108,14 @@ def get_team_profile(team, comp):
     cursor.execute(matches_query)
     matches = cursor.fetchall()
     # reshaping data
-    matches = [m[0] for m in matches]
-    scores = [return_scores(m, cursor) for m in matches]
-    extended_scores = [{m: return_extended_scores(team, m, cursor)}
+    matches = [[m[0], m[1], m[2]] for m in matches]
+    team_list = [{'home': m[1], 'away': m[2]} for m in matches]
+    scores = [return_scores(m[0], cursor) for m in matches]
+    extended_scores = [{m[0]: return_extended_scores(team, m[0], cursor)}
                        for m in matches]
 
     return render_template('team.html', team=team, comp=comp, scores=scores,
-                           extended_scores=extended_scores)
+                           extended_scores=extended_scores, team_list=team_list)
 
 
 if __name__ == '__main__':
