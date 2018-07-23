@@ -10,7 +10,7 @@ body {
 #holder {
     height: 100%;
     width: 87%;
-    margin-left: 7%;
+    margin-left: 5%;
     margin-right: 6%;
 	margin-top: 2%;
 }
@@ -33,7 +33,7 @@ td {
 
 /* heading */
 #heading {
-	font-size: 4vh;
+	font-size: 4.5vh;
 	text-decoration: underline;
 	text-align: left;
 }
@@ -62,9 +62,15 @@ td {
     vertical-align: top;
 }
 
+.season:hover {
+	background-color: black;
+	color: white;
+}
+
 /* table to hold the points table */
 #pointsTable {
 	width: 90%;
+	border-collapse: collapse;
 }
 
 #pointsTable td {
@@ -81,6 +87,20 @@ td {
 	font-weight: 400;
 	text-decoration: none;
 	color: black;
+}
+
+#pointsTable a:hover {
+	color: #808080;
+	font-weight: 500;
+}
+
+/* legend */
+#key {
+	border-left: grey 1px solid;
+}
+
+#legend {
+	padding-left: 1vw;
 }
 
 

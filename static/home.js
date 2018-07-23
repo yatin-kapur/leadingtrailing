@@ -33,7 +33,9 @@ function update_standings(comp) {
             var rows = tbody.selectAll('tr')
                 .data(standings)
                 .enter()
-                .append('tr');
+                .append('tr')
+				.attr('id', function(d) { return d['team']; })
+				.attr('class', 'team');
 
             // create a cell in each row for each column
             // except for team names
@@ -56,6 +58,9 @@ function update_standings(comp) {
 			d3.select("#heading").select("th")
 				.text("English Premier League " + comp)
 				.attr("style", "font-weight: 300; padding-bottom: 3vh;")
+
+			d3.selectAll(".team")
+				.style("background-color", function(d, i) { return i % 2 == 0? "#f0f0f0" : "#fff";});
 
             format_standings();
         }
