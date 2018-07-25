@@ -17,4 +17,4 @@
 * http://naveedgol.com/NBARotationChart/
 
 ### Data From
-* https://football_lineups.com 
+* https://www.football-lineups.com
