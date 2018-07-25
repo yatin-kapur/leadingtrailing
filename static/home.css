@@ -29,6 +29,7 @@ body {
 
 td {
     vertical-align: top;
+    white-space: nowrap;
 }
 
 /* heading */

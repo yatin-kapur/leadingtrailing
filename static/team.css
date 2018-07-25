@@ -15,25 +15,27 @@ body {
 
 /* div holding the table */
 #holder {
-    margin-left: 2%;
-    margin-right: 2%;
+    margin-left: 5vw;
 	margin-top: 2%;
     display: flex;
     justify-content: center;
     height: 80vh;
-    width: 90vw;
+    width: 95vw;
     overflow: scroll;
 }
 
 #data {
-    width: 90%;
+    width: 100%;
+    border-left: solid 1px grey;
 }
 
 #data td {
+    font-size: 10pt;
     padding-left: 1vw;
     padding-right: 1vw;
     padding-top: 0.5vh;
     padding-bottom: 0.5vh;
+    white-space: nowrap;
 }
 
 #data p {
