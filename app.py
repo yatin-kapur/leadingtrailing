@@ -56,38 +56,57 @@ def update_standings():
         return json.dumps({'data': standings})
 
 
-def return_scores(match_id, cursor):
-    # find the scores for the game
-    scores_query = """
-                    select home_score, away_score
-                    from scores
-                    where 1=1
-                    and match_id = %s
-                    order by minute desc, home_score desc, away_score desc;
-                    """ % match_id
-    cursor.execute(scores_query)
-    score = cursor.fetchall()[0]
+def return_scores(team, matches, cursor):
+    match_id = '(' + str(matches[0])
+    for m in matches[1:]:
+        match_id += ',' + str(m)
 
-    return score
+    match_id = match_id + ')'
+    # get all matches
+    query = """
+            select match_id, home_score, away_score
+            from scores
+            where 1=1
+            and match_id in %s
+            order by minute desc;
+            """ % (match_id)
+    cursor.execute(query)
+    scores = cursor.fetchall()
+    return_scores = [{m: []} for m in matches]
+
+    for i in range(0, 38):
+        return_scores[i][matches[i]] = [[s[1], s[2]] for s in scores
+                                         if s[0] == matches[i]][0]
+
+    return return_scores
 
 
-def return_extended_scores(team, match_id, cursor):
+def return_extended_scores(team, matches, cursor):
+    match_id = '(' + str(matches[0])
+    for m in matches[1:]:
+        match_id += ',' + str(m)
+
+    match_id = match_id + ')'
     # get all the scores for one game
     query = """
-            select s.minute,
+            select m.match_id, s.minute,
             if((s.home_score > s.away_score and m.home_team = '%s') or (s.home_score < s.away_score and m.away_team = '%s'), 1, 0) as 'win',
             if((s.home_score = s.away_score), 2, 0) as 'draw',
             if((s.home_score < s.away_score and m.home_team = '%s') or (s.home_score > s.away_score and m.away_team = '%s'), 3, 0) as 'loss'
             from extended_scores s
             join matches m on m.match_id = s.match_id
             where 1=1
-            and m.match_id = %s;
+            and m.match_id in %s;
             """ % (team, team, team, team, match_id)
     cursor.execute(query)
     scores = cursor.fetchall()
-    scores = [[d[0], d[1] + d[2] + d[3]] for d in scores]
+    return_scores = [{m: []} for m in matches]
 
-    return scores
+    for i in range(0, 38):
+        return_scores[i][matches[i]] = ([[d[1], d[2]+d[3]+d[4]]
+                                         for d in scores if d[0] == matches[i]])
+
+    return return_scores
 
 
 @app.route('/<string:team>/<string:comp>')
@@ -109,10 +128,11 @@ def get_team_profile(team, comp):
     matches = cursor.fetchall()
     # reshaping data
     matches = [[m[0], m[1], m[2]] for m in matches]
+    # getting the match ids
+    match_ids = [m[0] for m in matches]
     team_list = [{'home': m[1], 'away': m[2]} for m in matches]
-    scores = [return_scores(m[0], cursor) for m in matches]
-    extended_scores = [{m[0]: return_extended_scores(team, m[0], cursor)}
-                       for m in matches]
+    extended_scores = return_extended_scores(team, match_ids, cursor)
+    scores = return_scores(team, match_ids, cursor)
 
     return render_template('team.html', team=team, comp=comp, scores=scores,
                            extended_scores=extended_scores, team_list=team_list)
