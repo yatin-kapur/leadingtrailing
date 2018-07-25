@@ -5,14 +5,37 @@ body {
     font-family: 'Hind Siliguri', sans-serif;
 }
 
+#title h1 {
+	font-size: 4.5vh;
+	text-decoration: underline;
+	text-align: left;
+    font-weight: 400;
+    margin-left: 4vw;
+}
+
 /* div holding the table */
 #holder {
-    margin-left: 5%;
-    margin-right: 6%;
+    margin-left: 2%;
+    margin-right: 2%;
 	margin-top: 2%;
     display: flex;
     justify-content: center;
     height: 80vh;
     width: 90vw;
     overflow: scroll;
+}
+
+#data {
+    width: 90%;
+}
+
+#data td {
+    padding-left: 1vw;
+    padding-right: 1vw;
+    padding-top: 0.5vh;
+    padding-bottom: 0.5vh;
+}
+
+#data p {
+    display: inline;
 }

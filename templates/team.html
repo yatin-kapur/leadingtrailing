@@ -28,17 +28,21 @@
 
     // function to insert the svg for games
     function insert_scores(game_n) {
+        // append another td
         d3.select("#game" + game_n)
             .append("td")
             .attr("id", "match" + game_n);
             
+        // get scores for this game
         var game_scores = extended_scores[game_n][matches[game_n]];        
         for (var i = 0; i < game_scores.length; ++i) {
+            // create svg figure
             var svg = d3.select("#match" + game_n)
                 .append("svg")
                 .attr("width", "10")
                 .attr("height", "10");
 
+            // create square
             var square = svg.append("rect")
                 .attr("x", "1")
                 .attr("y", "1")
@@ -52,12 +56,28 @@
     d3.select("#title").append('h1').text(team + " " + year);
 
     for (var i = 0; i < 38; ++i) {
-        d3.select("#data")
+        var row = d3.select("#data")
             .append("tr")
-            .attr("id", "game" + i)
-            .append("td")
-            .text(team_list[i]['home'] + " " +  scores[i][matches[i]][0] + " - " + scores[i][matches[i]][1] + " " + team_list[i]['away']);
+            .attr("id", "game" + i);
+        // date
+        row.append("td")
+            .text(dates[i])
+            .attr("class", "date")
+            .style("text-align", "center");
+        // game result
+        var label = row.append("td");
+        label.append("p")
+            .text(team_list[i]['home'] + " " + scores[i][matches[i]][0])
+            .style("font-weight", function() { return team == team_list[i]['home'] ? "500" : "300"; });
 
+        label.append("p").text(" - ");
+
+        label.append("p")
+            .text(scores[i][matches[i]][1] + " " + team_list[i]['away'])
+            .style("font-weight", function() { return team == team_list[i]['away'] ? "500" : "300"; });
+
+        label.style("text-align", "center");
+        // time squares
         insert_scores(i);
     }
 
