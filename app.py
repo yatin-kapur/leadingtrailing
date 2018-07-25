@@ -113,10 +113,11 @@ def return_extended_scores(team, matches, cursor):
 def get_team_profile(team, comp):
     # return team name that is without _s
     team = ' '.join(team.split('_'))
+    year = comp
     comp = 'FA_Premier_League_' + comp
     # all matches for this team
     matches_query = """
-                select match_id, home_team, away_team
+                select match_id, home_team, away_team, date
                 from matches
                 where 1=1
                 and competition = '%s'
@@ -127,15 +128,17 @@ def get_team_profile(team, comp):
     cursor.execute(matches_query)
     matches = cursor.fetchall()
     # reshaping data
-    matches = [[m[0], m[1], m[2]] for m in matches]
+    matches = [[m[0], m[1], m[2], m[3]] for m in matches]
     # getting the match ids
     match_ids = [m[0] for m in matches]
+    dates = [m[3] for m in matches]
     team_list = [{'home': m[1], 'away': m[2]} for m in matches]
     extended_scores = return_extended_scores(team, match_ids, cursor)
     scores = return_scores(team, match_ids, cursor)
 
-    return render_template('team.html', team=team, comp=comp, scores=scores,
-                           extended_scores=extended_scores, team_list=team_list)
+    return render_template('team.html', team=team, year=year, scores=scores,
+                           extended_scores=extended_scores, team_list=team_list,
+                           matches=match_ids, dates=dates)
 
 
 if __name__ == '__main__':

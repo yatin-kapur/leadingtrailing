@@ -2,18 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='team.css') }}">
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Hind+Siliguri:300,400,500,700" rel="stylesheet">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <title>leading trailing</title>
 </head>
 <body>
-    {{ team }}
-    {{ comp }}
-    {{ team_list }}
-    <br>
-    scores
-    {{ scores }}
-    <br>
-    game scores
-    {{ extended_scores }}
+    <div id="title"></div>
+    <div id="holder">
+        <table id="data">
+        </table>
+    </div>
 </body>
+<script>
+    var extended_scores = {{ extended_scores|safe }};
+    var scores = {{ scores|safe }};
+    var matches = {{ matches|safe }};
+    var team_list = {{ team_list|safe }};
+    var year = "{{ year }}";
+    var team = "{{ team }}";
+    var dates = {{ dates|safe }};
+
+    var color_dict = {1: "green", 2: "orange", 3: "red"};
+
+    // function to insert the svg for games
+    function insert_scores(game_n) {
+        d3.select("#game" + game_n)
+            .append("td")
+            .attr("id", "match" + game_n);
+            
+        var game_scores = extended_scores[game_n][matches[game_n]];        
+        for (var i = 0; i < game_scores.length; ++i) {
+            var svg = d3.select("#match" + game_n)
+                .append("svg")
+                .attr("width", "10")
+                .attr("height", "10");
+
+            var square = svg.append("rect")
+                .attr("x", "1")
+                .attr("y", "1")
+                .attr("width", "7")
+                .attr("height", "7")
+                .attr("fill", color_dict[game_scores[i][1]]);
+        }
+    }
+
+    // fix header
+    d3.select("#title").append('h1').text(team + " " + year);
+
+    for (var i = 0; i < 38; ++i) {
+        d3.select("#data")
+            .append("tr")
+            .attr("id", "game" + i)
+            .append("td")
+            .text(team_list[i]['home'] + " " +  scores[i][matches[i]][0] + " - " + scores[i][matches[i]][1] + " " + team_list[i]['away']);
+
+        insert_scores(i);
+    }
+
+</script>
 </html>
 

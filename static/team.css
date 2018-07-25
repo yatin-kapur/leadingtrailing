@@ -1,0 +1,18 @@
+body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    font-family: 'Hind Siliguri', sans-serif;
+}
+
+/* div holding the table */
+#holder {
+    margin-left: 5%;
+    margin-right: 6%;
+	margin-top: 2%;
+    display: flex;
+    justify-content: center;
+    height: 80vh;
+    width: 90vw;
+    overflow: scroll;
+}
