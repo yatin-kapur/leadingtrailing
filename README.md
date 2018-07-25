@@ -6,13 +6,13 @@
 
 ## TODO
 * Build model for english premier league
-* Initialize Flask site
 
 ## Done
 * Russia 2018 round of 16 coverage
 * Script to parse data from football-lineups.com
 * Cronjob for nightly updates
 * Migrate to google compute engine
+* Initialize Flask site
 
 ### Inspiration From
 * https://twitter.com/Worville/status/971701607980204032
