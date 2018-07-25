@@ -12,6 +12,13 @@
     <div id="title"></div>
     <div id="holder">
         <table id="data">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Game</th>
+                    <th>{{team}} is: <p style="color: green;">leading</p>-<p style="color: orange;">level</p>-<p style="color: red;">trailing</p></th>
+                </tr>
+            </thead>
         </table>
     </div>
 </body>
@@ -25,6 +32,21 @@
     var dates = {{ dates|safe }};
 
     var color_dict = {1: "green", 2: "orange", 3: "red"};
+    
+    function make_square(corid, label, color) {
+        var svg = d3.select(corid + label)
+            .append("svg")
+            .attr("width", "15")
+            .attr("height", "15");
+
+        // create square
+        var square = svg.append("rect")
+            .attr("x", "2")
+            .attr("y", "0")
+            .attr("width", "12")
+            .attr("height", "12")
+            .attr("fill", color);
+    }
 
     // function to insert the svg for games
     function insert_scores(game_n) {
@@ -36,19 +58,7 @@
         // get scores for this game
         var game_scores = extended_scores[game_n][matches[game_n]];        
         for (var i = 0; i < game_scores.length; ++i) {
-            // create svg figure
-            var svg = d3.select("#match" + game_n)
-                .append("svg")
-                .attr("width", "10")
-                .attr("height", "10");
-
-            // create square
-            var square = svg.append("rect")
-                .attr("x", "1")
-                .attr("y", "1")
-                .attr("width", "7")
-                .attr("height", "7")
-                .attr("fill", color_dict[game_scores[i][1]]);
+            make_square("#", "match" + game_n, color_dict[game_scores[i][1]]);
         }
     }
 
@@ -61,7 +71,7 @@
             .attr("id", "game" + i);
         // date
         row.append("td")
-            .text(dates[i])
+            .text(dates[i].replace('-','/').replace('-','/'))
             .attr("class", "date")
             .style("text-align", "center");
         // game result
@@ -80,6 +90,9 @@
         // time squares
         insert_scores(i);
     }
+
+    // insert references on the right
+
 
 </script>
 </html>
