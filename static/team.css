@@ -24,7 +24,12 @@ body {
     overflow: scroll;
 }
 
+.label p {
+	font-weight: 500;
+}
+
 #data {
+    border-collapse: collapse;
     width: 100%;
     border-left: solid 1px grey;
 }

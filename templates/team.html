@@ -12,11 +12,11 @@
     <div id="title"></div>
     <div id="holder">
         <table id="data">
-            <thead>
+            <thead style="background-color: #f0f0f0">
                 <tr>
                     <th>Date</th>
                     <th>Game</th>
-                    <th>{{team}} is <p style="color: green;">leading</p>-<p style="color: orange;">level</p>-<p style="color: red;">trailing</p> at the particular minute of the game</th>
+                    <th class="label">{{team}} is <p style="color: #00e600;">leading</p>-<p style="color: #ffdb4d;">level</p>-<p style="color: #ff6666;">trailing</p> at the particular minute of the game</th>
                 </tr>
             </thead>
         </table>
@@ -31,21 +31,24 @@
     var team = "{{ team }}";
     var dates = {{ dates|safe }};
 
-    var color_dict = {1: "green", 2: "orange", 3: "red"};
+    var color_dict = {1: "#00e600", 2: "#ffdb4d", 3: "#ff6666"};
     
-    function make_square(corid, label, color) {
+    function make_square(corid, label, color, width) {
         var svg = d3.select(corid + label)
             .append("svg")
-            .attr("width", "15")
+            .attr("width", width)
             .attr("height", "15");
 
         // create square
         var square = svg.append("rect")
-            .attr("x", "2")
-            .attr("y", "0")
-            .attr("width", "12")
-            .attr("height", "12")
-            .attr("fill", color);
+            .attr("x", "1")
+            .attr("y", "1")
+            .attr("width", width-1)
+            .attr("height", "14")
+            .attr("fill", color)
+            .style("stroke", "white")
+            .style("stroke-width", "0.5");
+            // .style("opacity", "0.5");
     }
 
     // function to insert the svg for games
@@ -57,8 +60,8 @@
             
         // get scores for this game
         var game_scores = extended_scores[game_n][matches[game_n]];        
-        for (var i = 0; i < game_scores.length; ++i) {
-            make_square("#", "match" + game_n, color_dict[game_scores[i][1]]);
+        for (var i = 1; i < game_scores.length; ++i) {
+            make_square("#", "match" + game_n, color_dict[game_scores[i][1]], (15*90)/(game_scores.length - 1));
         }
     }
 
