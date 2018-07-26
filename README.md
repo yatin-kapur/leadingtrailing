@@ -2,7 +2,14 @@
 * Web app showing time spent leading vs. trailing in different portions of the game (only Premier League)
 * Model to predict points given time spent leading and trailing per 90 
 
-![example](https://github.com/yatin-kapur/leading_trailing/blob/master/example.gif)
+### Home Page
+![example](https://github.com/yatin-kapur/leading_trailing/blob/master/home.png)
+
+### Select Seasons (1997-2018)
+![example](https://github.com/yatin-kapur/leading_trailing/blob/master/year.png)
+
+### Team Profile for Given Season
+![example](https://github.com/yatin-kapur/leading_trailing/blob/master/team.png)
 
 ## TODO
 * Build model for english premier league
