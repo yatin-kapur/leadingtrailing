@@ -1,12 +1,11 @@
 body {
     height: 100%;
     width: 100%;
-    overflow: hidden;
     font-family: 'Hind Siliguri', sans-serif;
 }
 
-#title h1 {
-	font-size: 4.5vh;
+#title {
+	font-size: calc(15px + 1vh + 1vw);
 	text-decoration: underline;
 	text-align: left;
     font-weight: 400;

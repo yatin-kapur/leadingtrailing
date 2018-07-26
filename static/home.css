@@ -1,18 +1,18 @@
 /* setting body dimensions */
 body {
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
     font-family: 'Hind Siliguri', sans-serif;
 }
 
 /* main table dimensions */
 #holder {
-    height: 100%;
-    width: 87%;
+    height: 96%;
+    width: 89%;
     margin-left: 5%;
     margin-right: 6%;
 	margin-top: 2%;
+	margin-bottom: 2%;
 }
 
 #left {
@@ -34,7 +34,8 @@ td {
 
 /* heading */
 #heading {
-	font-size: 4.5vh;
+	font-size: calc(15px + 1vh + 1vw);
+    font-weight: 400;
 	text-decoration: underline;
 	text-align: left;
 }
@@ -45,6 +46,7 @@ td {
     justify-content: center;
     height: 80vh;
     overflow: scroll;
+    font-size: 1vw;
 }
 
 /* table to hold the seasons list */
@@ -55,7 +57,7 @@ td {
 .season {
     cursor: pointer;
     text-align: center;
-    width: 70%;
+    width: 10vw;
     padding-left: 1vw;
     padding-right: 1vw;
     padding-top: 1vh;
@@ -70,7 +72,7 @@ td {
 
 /* table to hold the points table */
 #pointsTable {
-	width: 90%;
+	width: 60vw;
 	border-collapse: collapse;
 }
 
@@ -96,12 +98,11 @@ td {
 }
 
 /* legend */
-#key {
-	border-left: grey 1px solid;
-}
-
 #legend {
+    height: 80vh;
+	border-left: grey 1px solid;
 	padding-left: 1vw;
+    font-size: 1vw;
 }
 
 

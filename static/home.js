@@ -1,7 +1,3 @@
-// function to format table
-function format_standings() {
-}
-
 // function to update standings table
 function update_standings(comp) {
     $.ajax({
