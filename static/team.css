@@ -15,12 +15,11 @@ body {
 
 /* div holding the table */
 #holder {
-    margin-left: 5vw;
 	margin-top: 2%;
     display: flex;
     justify-content: center;
     height: 80vh;
-    width: 95vw;
+    width: 100vw;
     overflow: scroll;
 }
 
@@ -30,12 +29,18 @@ body {
 
 #data {
     border-collapse: collapse;
-    width: 100%;
+    width: 95%;
+    margin-left: 2%;
+    margin-right: 3%;
     border-left: solid 1px grey;
 }
 
+#data {
+    text-align:center;
+    font-size: 1vw;
+}
+
 #data td {
-    font-size: 10pt;
     padding-left: 1vw;
     padding-right: 1vw;
     padding-top: 0.5vh;
