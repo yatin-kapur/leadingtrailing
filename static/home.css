@@ -2,6 +2,7 @@
 body {
     height: 100vh;
     width: 100vw;
+    overflow: hidden;
     font-family: 'Hind Siliguri', sans-serif;
 }
 
@@ -34,7 +35,7 @@ td {
 
 /* heading */
 #heading {
-	font-size: calc(15px + 1vh + 1vw);
+	font-size: calc(10px + 1vh + 1vw);
     font-weight: 400;
 	text-decoration: underline;
 	text-align: left;
