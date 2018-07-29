@@ -6,10 +6,9 @@
     Implements signals based on blinker if available, otherwise
     falls silently back to a noop.
 
-    :copyright: © 2010 by the Pallets team.
+    :copyright: (c) 2015 by Armin Ronacher.
     :license: BSD, see LICENSE for more details.
 """
-
 signals_available = False
 try:
     from blinker import Namespace

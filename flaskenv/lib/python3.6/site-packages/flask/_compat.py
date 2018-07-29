@@ -7,10 +7,9 @@
     version of six so we don't have to depend on a specific version
     of it.
 
-    :copyright: © 2010 by the Pallets team.
+    :copyright: (c) 2015 by Armin Ronacher.
     :license: BSD, see LICENSE for more details.
 """
-
 import sys
 
 PY2 = sys.version_info[0] == 2
@@ -26,7 +25,6 @@ if not PY2:
     itervalues = lambda d: iter(d.values())
     iteritems = lambda d: iter(d.items())
 
-    from inspect import getfullargspec as getargspec
     from io import StringIO
 
     def reraise(tp, value, tb=None):
@@ -45,7 +43,6 @@ else:
     itervalues = lambda d: d.itervalues()
     iteritems = lambda d: d.iteritems()
 
-    from inspect import getargspec
     from cStringIO import StringIO
 
     exec('def reraise(tp, value, tb=None):\n raise tp, value, tb')

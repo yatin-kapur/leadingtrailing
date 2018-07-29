@@ -4,3 +4,4 @@
 /.ipynb_checkpoints/*
 config.ini
 dbconfig.py
+app.yaml

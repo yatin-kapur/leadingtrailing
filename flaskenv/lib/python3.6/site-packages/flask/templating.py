@@ -5,10 +5,9 @@
 
     Implements the bridge to Jinja2.
 
-    :copyright: © 2010 by the Pallets team.
+    :copyright: (c) 2015 by Armin Ronacher.
     :license: BSD, see LICENSE for more details.
 """
-
 from jinja2 import BaseLoader, Environment as BaseEnvironment, \
      TemplateNotFound
 
