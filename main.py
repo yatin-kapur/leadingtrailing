@@ -161,6 +161,7 @@ def get_team_profile(team, comp):
 
     # return team name that is without _s
     team = ' '.join(team.split('_'))
+    team = team[0].upper() + team[1:]
     year = comp
     comp = 'FA_Premier_League_' + comp
     # all matches for this team
@@ -187,7 +188,7 @@ def get_team_profile(team, comp):
     cursor.close()
     db.close()
 
-    return render_template('team.html', team=team, year=year, scores=scores,
+    return render_template('team.html', team=[team], year=[year], scores=scores,
                            extended_scores=extended_scores, team_list=team_list,
                            matches=match_ids, dates=dates)
 

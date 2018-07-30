@@ -28,8 +28,10 @@
     var scores = {{ scores|safe }};
     var matches = {{ matches|safe }};
     var team_list = {{ team_list|safe }};
-    var year = "{{ year }}";
-    var team = "{{ team }}";
+    var year = {{ year|safe }};
+    year = year[0];
+    var team = {{ team|safe }};
+    team = team[0];
     var dates = {{ dates|safe }};
 
     var color_dict = {1: "#00e600", 2: "#ffdb4d", 3: "#ff6666"};
