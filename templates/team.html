@@ -17,7 +17,7 @@
                 <tr>
                     <th>Date</th>
                     <th>Game</th>
-                    <th class="label">{{team}} is <p style="color: #00e600;">leading</p>-<p style="color: #ffdb4d;">level</p>-<p style="color: #ff6666;">trailing</p> at the particular minute of the game</th>
+                    <th class="label"><p id="left-minute">0'</p>{{team[0]|safe}} is <p style="color: #00e600;">leading</p>-<p style="color: #ffdb4d;">level</p>-<p style="color: #ff6666;">trailing</p> at the particular minute of the game<p id="right-minute">90'</p></th>
                 </tr>
             </thead>
         </table>

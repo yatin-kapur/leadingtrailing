@@ -36,11 +36,11 @@ body {
 }
 
 #data {
-    text-align:center;
     font-size: 1vw;
 }
 
 #data td {
+    text-align:center;
     padding-left: 1vw;
     padding-right: 1vw;
     padding-top: 0.5vh;

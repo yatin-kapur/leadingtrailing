@@ -188,9 +188,9 @@ def get_team_profile(team, comp):
     cursor.close()
     db.close()
 
-    return render_template('team.html', team=[team], year=[year], scores=scores,
-                           extended_scores=extended_scores, team_list=team_list,
-                           matches=match_ids, dates=dates)
+    return render_template('team.html', team=[str(team)], year=[str(year)],
+                           scores=scores, extended_scores=extended_scores,
+                           team_list=team_list, matches=match_ids, dates=dates)
 
 
 if __name__ == '__main__':
