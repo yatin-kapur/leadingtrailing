@@ -109,7 +109,7 @@ def return_scores(team, matches, cursor):
     scores = cursor.fetchall()
     return_scores = [{m: []} for m in matches]
 
-    for i in range(0, 38):
+    for i in range(0, len(return_scores)):
         return_scores[i][matches[i]] = [[int(s[1]),
                                               int(s[2])] for s in scores
                                          if s[0] == matches[i]][0]
@@ -144,7 +144,7 @@ def return_extended_scores(team, matches, cursor):
     scores = cursor.fetchall()
     return_scores = [{m: []} for m in matches]
 
-    for i in range(0, 38):
+    for i in range(0, len(return_scores)):
         return_scores[i][matches[i]] = ([[int(d[1]), int(d[2]+d[3]+d[4])]
                                          for d in scores if d[0] == matches[i]])
 

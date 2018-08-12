@@ -58,7 +58,7 @@ function update_standings(comp) {
 			d3.selectAll(".team")
 				.style("background-color", function(d, i) { return i % 2 == 0? "#f0f0f0" : "#fff";});
 
-            format_standings();
+            // format_standings();
         }
     });
 };

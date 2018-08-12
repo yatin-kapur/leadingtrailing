@@ -17,7 +17,7 @@
                 <tr>
                     <th>Date</th>
                     <th>Game</th>
-                    <th class="label"><p id="left-minute">0'</p>{{team[0]|safe}} is <p style="color: #00e600;">leading</p>-<p style="color: #ffdb4d;">level</p>-<p style="color: #ff6666;">trailing</p> at the particular minute of the game<p id="right-minute">90'</p></th>
+                    <th class="label"></p>{{team[0]|safe}} is <p style="color: #00e600;">leading</p>-<p style="color: #ffdb4d;">level</p>-<p style="color: #ff6666;">trailing</p> at the particular minute of the game</th>
                 </tr>
             </thead>
         </table>
@@ -71,7 +71,7 @@
     // fix header
     d3.select("#title").append('p').text(team + " " + year);
 
-    for (var i = 0; i < 38; ++i) {
+    for (var i = 0; i < extended_scores.length; ++i) {
         var row = d3.select("#data")
             .append("tr")
             .attr("id", "game" + i);
