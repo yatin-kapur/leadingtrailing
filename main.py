@@ -68,7 +68,7 @@ def update_standings():
                 from competition_summary
                 where 1=1
                 and competition = '%s'
-                order by pts desc, gd desc;
+                order by pts desc, gd desc, gs desc, ga desc;
                 """ % competition
         cursor.execute(query)
         standings = cursor.fetchall()
