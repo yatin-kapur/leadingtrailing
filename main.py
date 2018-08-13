@@ -25,13 +25,6 @@ def connect_to_cloudsql():
             passwd=CLOUDSQL_PASSWORD,
             db='leading_trailing')
 
-    else:
-        db = MySQLdb.connect(host='130.211.158.172',
-                             user='root',
-                             passwd='init.lambda',
-                             db='leading_trailing')
-
-
     return db
 
 @app.route('/')
