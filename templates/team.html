@@ -39,15 +39,15 @@
     function make_square(corid, label, color, width) {
         var svg = d3.select(corid + label)
             .append("svg")
-            .attr("width", width + "vw")
-            .attr("height", "0.7vw");
+            .attr("width", width + "em")
+            .attr("height", "0.7em");
 
         // create square
         var square = svg.append("rect")
             .attr("x", "1")
             .attr("y", "1")
-            .attr("width", width-0.1 + "vw")
-            .attr("height", "0.6vw")
+            .attr("width", width-0.1 + "em")
+            .attr("height", "0.6em")
             .attr("fill", color)
             .style("stroke", "white")
             .style("stroke-width", "0.5");
@@ -62,16 +62,16 @@
             .attr("id", "match" + game_n);
             
         // get scores for this game
-        var game_scores = extended_scores[game_n][matches[game_n]];        
+        var game_scores = extended_scores[matches[game_n]];        
         for (var i = 1; i < game_scores.length; ++i) {
-            make_square("#", "match" + game_n, color_dict[game_scores[i][1]], (0.7*90)/(game_scores.length - 1));
+            make_square("#", "match" + game_n, color_dict[game_scores[i][1]], (0.7*90)/(game_scores.length-1));
         }
     }
 
     // fix header
     d3.select("#title").append('p').text(team + " " + year);
 
-    for (var i = 0; i < extended_scores.length; ++i) {
+    for (var i = 0; i < Object.keys(scores).length; ++i) {
         var row = d3.select("#data")
             .append("tr")
             .attr("id", "game" + i);
@@ -82,13 +82,13 @@
         // game result
         var label = row.append("td");
         label.append("p")
-            .text(team_list[i]['home'] + " " + scores[i][matches[i]][0])
+            .text(team_list[i]['home'] + " " + scores[matches[i]][0])
             .style("font-weight", function() { return team == team_list[i]['home'] ? "500" : "300"; });
 
         label.append("p").text(" - ");
 
         label.append("p")
-            .text(scores[i][matches[i]][1] + " " + team_list[i]['away'])
+            .text(scores[matches[i]][1] + " " + team_list[i]['away'])
             .style("font-weight", function() { return team == team_list[i]['away'] ? "500" : "300"; });
 
         // time squares
