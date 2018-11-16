@@ -7,7 +7,7 @@
     <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}"/>
     <link href="https://fonts.googleapis.com/css?family=Hind+Siliguri:300,400,500,700" rel="stylesheet">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <title>Leading & Trailing</title>
+    <title>{{team[0]|safe}} {{year[0] |safe}}</title>
 </head>
 <body>
     <div id="title"></div>
@@ -94,10 +94,6 @@
         // time squares
         insert_scores(i);
     }
-
-    // insert references on the right
-
-
 </script>
 </html>
 
