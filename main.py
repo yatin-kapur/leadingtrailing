@@ -81,7 +81,7 @@ def update_standings():
         return json.dumps({'data': standings})
 
 
-def return_scores(team, matches, cursor):
+def return_scores(team, matches):
     db = connect_to_cloudsql()
     cursor = db.cursor()
 
@@ -112,7 +112,7 @@ def return_scores(team, matches, cursor):
     return return_scores
 
 
-def return_extended_scores(team, matches, cursor):
+def return_extended_scores(team, matches):
     db = connect_to_cloudsql()
     cursor = db.cursor()
 
@@ -174,8 +174,8 @@ def get_team_profile(team, comp):
     match_ids = [int(m[0]) for m in matches]
     dates = [m[3] for m in matches]
     team_list = [{'home': m[1], 'away': m[2]} for m in matches]
-    extended_scores = return_extended_scores(team, match_ids, cursor)
-    scores = return_scores(team, match_ids, cursor)
+    extended_scores = return_extended_scores(team, match_ids)
+    scores = return_scores(team, match_ids)
 
     cursor.close()
     db.close()
