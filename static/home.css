@@ -21,11 +21,11 @@ body {
 }
 
 #right {
-    width: 70%;
+    width: 75%;
 }
 
 #key {
-	width: 19%;
+	width: 14%;
 }
 
 td {
@@ -79,7 +79,8 @@ td {
 
 #pointsTable td {
     text-align: center;
-    width: 90%;
+    max-width: 90%;
+    white-space: nowrap;
     padding-left: 1vw;
     padding-right: 1vw;
     padding-top: 0.5vh;
@@ -105,7 +106,3 @@ td {
 	padding-left: 1vw;
     font-size: 1vw;
 }
-
-
-
-

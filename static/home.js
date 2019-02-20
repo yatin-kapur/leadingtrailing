@@ -10,8 +10,8 @@ function update_standings(comp) {
             // remove and reset table
             d3.select('#pointsTable').remove();
             // do the thing to make the table
-            var columns = ['team', 'pts', 'gp', 'gs', 'ga', 'gd', 'lead_time_p90', 'trail_time_p90'];
-			var headings = {'team': 'Team', 'pts': 'Points', 'gp': 'GP', 'gs': 'GS', 'ga': 'GA', 'gd': 'GD', 'lead_time_p90': 'LTp90', 'trail_time_p90': 'TTp90'}
+            var columns = ['pos', 'team', 'pts', 'gp', 'gs', 'ga', 'gd', 'lead_time_p90', 'trail_time_p90', 'top_four', 'top_six', 'relegation'];
+			var headings = {'pos': 'Pos', 'team': 'Team', 'pts': 'Points', 'gp': 'GP', 'gs': 'GS', 'ga': 'GA', 'gd': 'GD', 'lead_time_p90': 'LTp90', 'trail_time_p90': 'TTp90', 'top_four': 'Top Four', 'top_six': 'Top Six', 'relegation': 'Relegation'}
             var table = d3.select('.standings')
                 .append('table')
                 .attr('id', 'pointsTable');
@@ -43,7 +43,15 @@ function update_standings(comp) {
                 })
                 .enter()
                 .append('td')
-                .text(function (d) { return d.column == 'team' ? "" : d.value; });
+                .text(function (d) { 
+                    var ret = (d.column == 'team')? "" : d.value;
+                    if (d.column == 'top_four' || d.column == 'top_six' || d.column == 'relegation') {
+                        ret = d.value * 100;
+                        ret = ret.toFixed(2);
+                        ret = ret.toString(10) + "%";
+                    }
+                    return ret;
+                });
 
             // add team names and link to these team names
             cells.filter(function(d, i) { return d.column == 'team' })
@@ -56,7 +64,15 @@ function update_standings(comp) {
 				.attr("style", "font-weight: 300; padding-bottom: 3vh;")
 
 			d3.selectAll(".team")
-				.style("background-color", function(d, i) { return i % 2 == 0? "#f0f0f0" : "#fff";});
+				.style("background-color", function(d, i) { 
+                    if (i <= 3) {
+                        return "#2EFE9A";
+                    } else if (i == 4 || i == 5) {
+                        return "#F2F5A9";
+                    } else if (i >= 17) {
+                        return "#F5A9A9";
+                    }
+                });
 
             // format_standings();
         }
