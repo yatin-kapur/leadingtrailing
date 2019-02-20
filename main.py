@@ -57,11 +57,12 @@ def update_standings():
     if request.method == 'POST':
         competition = 'FA_Premier_League_' + request.form['comp']
         query = """
-                select team, pts, gp, gs, ga, gd, lead_time_p90, trail_time_p90
+                select team, pts, gp, gs, ga, gd, lead_time_p90, trail_time_p90,
+                pos, top_four, top_six, relegation
                 from competition_summary
                 where 1=1
                 and competition = '%s'
-                order by pts desc, gd desc, gs desc, ga desc;
+                order by pos;
                 """ % competition
         cursor.execute(query)
         standings = cursor.fetchall()
@@ -73,7 +74,11 @@ def update_standings():
                       'ga': d[4],
                       'gd': d[5],
                       'lead_time_p90': d[6],
-                      'trail_time_p90': d[7]} for d in standings]
+                      'trail_time_p90': d[7],
+                      'pos': d[8],
+                      'top_four': d[9],
+                      'top_six': d[10],
+                      'relegation': d[11]} for d in standings]
 
         cursor.close()
         db.close()
